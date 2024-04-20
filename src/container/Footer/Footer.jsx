@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { AppWrap, MotionWrap } from "../../wrapper";
-import { client } from "../../client";
+import { images } from "../../constants";
 import "./Footer.scss";
 import { AiFillMail, AiFillPhone } from "react-icons/ai";
 import { TiLocation } from "react-icons/ti";
 import { BiDownload } from "react-icons/bi";
-import { images } from "../../constants";
 
 const Footer = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +15,7 @@ const Footer = () => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { username, email, message } = formData;
+  const { name, email, message } = formData;
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -26,15 +25,15 @@ const Footer = () => {
   const handleSubmit = () => {
     setLoading(true);
 
-    const contact = {
-      _type: "contact",
-      name: formData.username,
-      email: formData.email,
-      message: formData.message,
-    };
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", name);
+    formDataToSend.append("email", email);
+    formDataToSend.append("message", message);
 
-    client
-      .create(contact)
+    fetch("https://getform.io/f/warkxgrb", {
+      method: "POST",
+      body: formDataToSend,
+    })
       .then(() => {
         setLoading(false);
         setIsFormSubmitted(true);
@@ -45,9 +44,6 @@ const Footer = () => {
   return (
     <>
       <div className="main__footer">
-        {/* <div className="round__container">
-          <div className="round__left"></div>
-        </div> */}
         <h2 className="head-text" style={{ color: "white", margin: "35px" }}>
           Contact
         </h2>
@@ -82,46 +78,47 @@ const Footer = () => {
                 <TiLocation style={{ color: "white" }} className="icons" />
               </div>
               <a href="" className="p-text">
-                Plot 24, Paud Road, <br /> MIT Back Gate, Pune District,{" "}
-                <br />
+                Plot 24, Paud Road, <br /> MIT Back Gate, Pune District, <br />
                 Pune, India 411038.
               </a>
             </div>
           </div>
           {!isFormSubmitted ? (
             <div className="message__container">
-              <div>
-                <input
-                  className="p-text"
-                  type="text"
-                  placeholder="Your Name"
-                  name="username"
-                  value={username}
-                  onChange={handleChangeInput}
-                />
-              </div>
-              <div>
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  name="email"
-                  value={email}
-                  onChange={handleChangeInput}
-                />
-              </div>
-              <div>
-                <textarea
-                  placeholder="Your Message"
-                  value={message}
-                  name="message"
-                  type="text"
-                  onChange={handleChangeInput}
-                  className="textareaa"
-                />
-              </div>
-              <button type="button" onClick={handleSubmit}>
-                {!loading ? "Send Message" : "Sending..."}
-              </button>
+              <form action="https://getform.io/f/warkxgrb" method="POST">
+                <div>
+                  <input
+                    className="p-text"
+                    type="text"
+                    placeholder="Your Name"
+                    name="name"
+                    value={name}
+                    onChange={handleChangeInput}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    name="email"
+                    value={email}
+                    onChange={handleChangeInput}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    placeholder="Your Message"
+                    value={message}
+                    name="message"
+                    type="text"
+                    onChange={handleChangeInput}
+                    className="textareaa"
+                  />
+                </div>
+                <button type="button" onClick={handleSubmit}>
+                  {!loading ? "Send Message" : "Sending..."}
+                </button>
+              </form>
             </div>
           ) : (
             <div className="message_note">
@@ -129,11 +126,6 @@ const Footer = () => {
             </div>
           )}
         </div>
-        {/* <div>
-        <p>@2023 </p>
-        <p>All rights reserved</p>
-      </div> */}
-        {/* <div className="round__right"></div> */}
         <div className="button-resume">
           <a href={images.resume} download style={{ textDecoration: "none" }}>
             <button className="resume-button">
