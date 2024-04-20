@@ -2,29 +2,30 @@ import React, { useState, useEffect } from "react";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { AppWrap, MotionWrap } from "../../wrapper";
-import { urlFor, client } from "../../client";
 import "./Work.scss";
+import ecom from "../../assets/ecom.png";
+import konnect from "../../assets/image.png";
 
 const Work = () => {
   const [works, setWorks] = useState([
     {
       id: 1,
       title: "E-commerce Project",
-      imgUrl: "../../assets/project1.png",
+      imgUrl: ecom,
       projectLink: "https://mern-store-gold.vercel.app/",
       codeLink: "https://github.com/Nitish0777/e-com",
       description:
-        "Our E-commerce Project is a user-friendly web platform built on the MERN stack, offering a diverse range of products with intuitive browsing, secure transactions, and seamless checkout. Explore a wide array of categories and shop with confidence.",
+        "Our E-commerce Project is a user-friendly web platform built on the MERN stack, offering a diverse range of products with intuitive browsing, secure transactions, and seamless checkout.",
       tags: ["Web App"],
     },
     {
       id: 2,
       title: "Project 2",
-      imgUrl: "../../assets/project2.png",
+      imgUrl: konnect,
       projectLink: "https://konnect-dashboard-frontend.vercel.app/",
       codeLink: "https://github.com/Nitish0777/konnect_dashboard",
       description:
-        "Konnect Dashboard is a powerful tool built with the MERN stack and React JS for tracking user activities and analytics. Monitor user interactions, track performance metrics, and gain valuable insights for informed decision-making.",
+        "Konnect Dashboard is a powerful tool built with the MERN stack and React JS for tracking user activities and analytics. Monitor user interactions, and gain valuable insights for informed decision-making.",
       tags: ["React JS"],
     },
   ]);
